@@ -6,5 +6,6 @@ import { DatabaseService } from './database.service';
   controllers: [DatabaseController],
 
   providers: [DatabaseService],
+  exports: [DatabaseService], // Exporting the service to be used in other modules
 })
 export class DatabaseModule {}
