@@ -28,4 +28,6 @@ export class CreateAdminDto {
   @IsOptional()
   @IsDate()
   createdAt?: Date;
+  @IsOptional()
+  profileId: number;
 }

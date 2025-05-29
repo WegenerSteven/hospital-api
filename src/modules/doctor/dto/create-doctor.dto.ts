@@ -12,7 +12,10 @@ export class CreateDoctorDto {
   @IsNotEmpty()
   doctorId?: number;
   @IsString()
-  name: string;
+  firstName: string;
+
+  @IsString()
+  lastName: string;
 
   @IsEmail()
   email: string;
@@ -28,4 +31,7 @@ export class CreateDoctorDto {
 
   @IsBoolean()
   isActive: boolean;
+
+  @IsNumber()
+  profileId: number;
 }

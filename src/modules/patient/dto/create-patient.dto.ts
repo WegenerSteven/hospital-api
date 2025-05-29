@@ -35,4 +35,6 @@ export class CreatePatientDto {
   @IsString()
   @IsOptional()
   city: string;
+  @IsString()
+  profileId: number;
 }

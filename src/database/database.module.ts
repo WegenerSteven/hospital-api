@@ -1,11 +1,28 @@
 import { Module } from '@nestjs/common';
-import { DatabaseController } from './database.controller';
-import { DatabaseService } from './database.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  controllers: [DatabaseController],
-
-  providers: [DatabaseService],
-  exports: [DatabaseService], // Exporting the service to be used in other modules
+  imports: [
+    ConfigModule,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (ConfigService: ConfigService) => ({
+        type: 'postgres',
+        host: ConfigService.getOrThrow<string>('PG_HOST'),
+        port: ConfigService.getOrThrow<number>('PG_PORT'),
+        username: ConfigService.getOrThrow<string>('PG_USER'),
+        password: ConfigService.getOrThrow<string>('PG_PASSWORD'),
+        database: ConfigService.getOrThrow<string>('PG_DATABASE'),
+        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        synchronize: ConfigService.getOrThrow<boolean>('PG_SYNC'),
+        logging: ConfigService.getOrThrow<boolean>('PG_LOGGING'),
+        migrations: [__dirname + '/../migrations/**/*{.ts,.js}'],
+      }),
+      inject: [ConfigService],
+    }),
+  ],
+  controllers: [],
+  providers: [],
 })
 export class DatabaseModule {}
