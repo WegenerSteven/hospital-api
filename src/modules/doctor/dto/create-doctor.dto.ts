@@ -1,16 +1,6 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsNumberString,
-  IsString,
-  IsBoolean,
-} from 'class-validator';
+import { IsEmail, IsNumber, IsString, IsBoolean } from 'class-validator';
 
 export class CreateDoctorDto {
-  @IsNumberString()
-  @IsNotEmpty()
-  doctorId?: number;
   @IsString()
   firstName: string;
 
@@ -20,8 +10,8 @@ export class CreateDoctorDto {
   @IsEmail()
   email: string;
 
-  @IsNumber()
-  phone: string;
+  @IsString()
+  phoneNumber: string;
 
   @IsString()
   specialty: string;
@@ -29,9 +19,9 @@ export class CreateDoctorDto {
   @IsNumber()
   yearsOfExperience: number;
 
-  @IsBoolean()
-  isActive: boolean;
+  @IsString()
+  password: string;
 
-  @IsNumber()
-  profileId: number;
+  @IsBoolean()
+  status: boolean;
 }

@@ -25,4 +25,7 @@ export class CreateProfileDto {
       'Role must be one of the following: user, admin, doctor, patient, nurse, receptionist',
   })
   role: Role;
+  @IsString()
+  @IsOptional()
+  phoneNumber: string;
 }
