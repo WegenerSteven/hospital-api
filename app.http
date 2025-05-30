@@ -1,37 +1,97 @@
 @url = http://localhost:3000
 
-### Create a new patient
-POST http://localhost:3000/patient
+
+#profile controller
+### Get all profiles
+GET {{url}}/profiles
+
+### Get a profile by search
+GET {{url}}/profiles/search?name=John
+
+### Get a profile by ID
+GET {{url}}/profiles/1
+
+### Create a new profile
+POST {{url}}/profiles
 Content-Type: application/json
 
 {
-    "firstName": "John",
+   "firstName": "John",
     "lastName": "Doe",
     "email": "johndoe@example.com",
-    "phoneNumber": "0712345678",
-    "dateOfAdmission": "2023-10-01T00:00:00.000Z",
-    "dateOfDischarge": "2023-10-10T00:00:00.000Z",
-    "dateOfBirth": "1990-01-01",
-    "address": "Nairobi",
-    "city": "Nairobi"
+    "role": "patient",
+    "phoneNumber": "0712345678"
 }
 
-### Get all patients
-GET http://localhost:3000/patient
-
-### Get a patient by ID
-GET http://localhost:3000/patient/1
-
-### Update a patient by ID
-PUT http://localhost:3000/patients/1
+### Update a profile by ID
+PATCH {{url}}/profiles/2
 Content-Type: application/json
 
 {
-    "name": "Jane Doe",
-    "age": 28,
-    "gender": "Female",
-    "address": "456 Elm St"
+  "profileId": 1,
+  "firstName": "John Smith",
+  "email": "updatejohn.doe@example.com"
 }
 
+### Delete a profile by ID
+DELETE {{url}}/profiles/3
+
+#patient controller
+
+### Get all patients
+GET {{url}}/patient
+
+### Get a patient by ID
+GET {{url}}/patient/1
+
+### Create a new patient
+POST {{url}}/patient
+Content-Type: application/json
+
+{
+    "dateOfAdmission": "2023-10-01",
+    "dateOfDischarge": "2023-10-10",
+    "dateOfBirth": "1990-01-01",
+    "address": "Nairobi",
+    "city": "Nairobi",
+    "profileId": 1
+}
+
+
 ### Delete a patient by ID
-DELETE http://localhost:3000/patients/1
+DELETE {{url}}/patient/1
+
+
+### get doctors
+GET {{url}}/doctor
+### Create a new doctor
+POST {{url}}/doctor
+Content-Type: application/json
+
+{
+    "firstName": "Benard",
+    "lastName": "Steven",
+    "email": "benard.steven@example.com",
+    "phoneNumber": "0712345657",
+    "specialty": "Cardiology",
+    "yearsOfExperience": 2,
+    "password": "securepassword",
+    "status": true
+}
+
+### Get a doctor by ID
+GET {{url}}/doctor/2
+### Update a doctor by ID
+PATCH {{url}}/doctor/2
+Content-Type: application/json
+
+{
+    "firstName": "Benard",
+    "lastName": "Steven",
+    "email": "benard.steven@example.com",
+    "phoneNumber": "0712345657",
+    "specialty": "Cardiology",
+    "yearsOfExperience": 5,
+    "password": "securepassword",
+    "status": true
+}
