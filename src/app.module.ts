@@ -6,6 +6,8 @@ import { PatientModule } from './modules/patient/patient.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { DepartmentsModule } from './modules/departments/departments.module';
+// import { SeedModule } from './seed/seed.module';
+//import { LogsModule } from './logs/logs.module';
 
 @Module({
   imports: [
