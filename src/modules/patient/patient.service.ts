@@ -13,9 +13,9 @@ export class PatientService {
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
   ) {}
 
-  async create(createPatientDto: CreatePatientDto) {
+  async create(createPatientDto: CreatePatientDto): Promise<Patient> {
     const existProfile = await this.profileRepository.findOneBy({
-      id: createPatientDto.profileId,
+      profileId: createPatientDto.profileId,
     });
     if (!existProfile) {
       throw new Error('Profile not found');
@@ -27,15 +27,25 @@ export class PatientService {
     return this.patientRepository.find();
   }
 
-  findOne(id: number | string) {
+  findOne(id: number) {
     return this.patientRepository.findOne({
       where: { patientId: id },
       relations: ['profile'],
     });
   }
 
-  update(id: number | string, updatePatientDto: UpdatePatientDto) {
-    return this.patientRepository.update(id, updatePatientDto);
+  update(id: number, updatePatientDto: UpdatePatientDto) {
+    return this.patientRepository
+      .update(id, updatePatientDto)
+      .then((result) => {
+        if (result.affected === 0) {
+          return `Patient with ID ${id} not found`;
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating patient:', error);
+        throw new Error('Error updating patient');
+      });
   }
 
   remove(id: number | string) {

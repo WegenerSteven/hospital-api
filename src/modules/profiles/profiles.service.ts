@@ -26,7 +26,7 @@ export class ProfilesService {
   async findAll(email?: string) {
     if (email) {
       return await this.profileRepository.find({
-        where: { email },
+        where: { email: email },
         relations: ['patient'],
       });
     }
@@ -36,25 +36,27 @@ export class ProfilesService {
   }
 
   async findOne(id: number) {
-    return await this.profileRepository.findOneBy({ id }).then((profile) => {
-      if (!profile) {
-        return `Profile with id ${id} not found`;
-      }
-      return profile;
-    });
+    return await this.profileRepository
+      .findOneBy({ profileId: id })
+      .then((profile) => {
+        if (!profile) {
+          return `Profile with id ${id} not found`;
+        }
+        return profile;
+      });
   }
 
   async update(
     id: number,
     updateProfileDto: UpdateProfileDto,
   ): Promise<Profile | string> {
-    await this.profileRepository.update(id, updateProfileDto);
+    await this.profileRepository.update({ profileId: id }, updateProfileDto);
     return await this.findOne(id);
   }
 
   async remove(id: number) {
     return await this.profileRepository
-      .delete(id)
+      .delete({ profileId: id })
       .then((result) => {
         if (result.affected === 0) {
           return `Profile with id ${id} not found`;

@@ -16,7 +16,7 @@ export class AdminService {
 
   async create(createAdminDto: CreateAdminDto) {
     const existProfile = await this.profileRepository.findOneBy({
-      id: createAdminDto.profileId,
+      profileId: createAdminDto.profileId,
     });
     if (!existProfile) {
       throw new Error('Profile not found');
@@ -40,12 +40,12 @@ export class AdminService {
     return this.profileRepository.save(newProfile);
   }
   async findProfileById(id: number) {
-    return this.profileRepository.findOneBy({ id });
+    return this.profileRepository.findOneBy({ profileId: id });
   }
   async updateProfile(id: number, updateProfileDto: CreateProfileDto) {
-    return this.profileRepository.update(id, updateProfileDto);
+    return this.profileRepository.update({ profileId: id }, updateProfileDto);
   }
   async removeProfile(id: number) {
-    return this.profileRepository.delete(id);
+    return this.profileRepository.delete({ profileId: id });
   }
 }

@@ -12,14 +12,7 @@ export class DoctorService {
     private readonly doctorRepository: Repository<Doctor>,
   ) {}
 
-  async create(createDoctorDto: CreateDoctorDto) {
-    // Assuming Doctor has a relation to Profile via a property like 'profile'
-    const existProfile = await this.doctorRepository.findOne({
-      where: { doctorId: createDoctorDto.doctorId }, // Replace 'doctorId' with the correct property if needed
-    });
-    if (!existProfile) {
-      throw new Error('Doctor not found');
-    }
+  async create(createDoctorDto: CreateDoctorDto): Promise<Doctor> {
     return this.doctorRepository.save(createDoctorDto);
   }
 
