@@ -4,25 +4,14 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   Relation,
+  OneToOne,
 } from 'typeorm';
 import { Profile } from '../../profiles/entities/profile.entity';
 
 @Entity('patients')
 export class Patient {
-  @PrimaryGeneratedColumn()
-  patientId: number | string;
-
-  @Column('varchar', { length: 50 })
-  firstName: string;
-
-  @Column({ nullable: true })
-  lastName?: string;
-
-  @Column('varchar', { length: 100 })
-  email: string;
-
-  @Column('varchar', { length: 10 })
-  phoneNumber: string;
+  @PrimaryGeneratedColumn('increment')
+  patientId: number;
 
   @Column('date')
   dateOfAdmission: Date;
@@ -39,6 +28,10 @@ export class Patient {
   @Column({ nullable: true })
   city?: string;
 
+  @OneToOne(() => Profile, (profile) => profile.patient, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   profile: Relation<Profile>;
 }

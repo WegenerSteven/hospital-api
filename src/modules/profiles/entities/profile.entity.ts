@@ -16,10 +16,10 @@ export enum Role {
   RECEPTIONIST = 'receptionist',
 }
 
-@Entity()
+@Entity('profile')
 export class Profile {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  profileId: number;
 
   @Column()
   firstName: string;
@@ -31,12 +31,19 @@ export class Profile {
   email: string;
 
   @Column({ unique: true })
-  phone: string;
+  phoneNumber: string;
 
   @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
-  isActive: boolean;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
   updatedAt: Date;
 
   @OneToOne(() => Patient, (patient) => patient.profile)
