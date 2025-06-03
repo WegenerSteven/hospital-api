@@ -24,7 +24,7 @@ export class CreateProfileDto {
     message:
       'Role must be one of the following: user, admin, doctor, patient, nurse, receptionist',
   })
-  role: Role;
+  role: Role = Role.USER;
   @IsString()
   @IsOptional()
   phoneNumber: string;
