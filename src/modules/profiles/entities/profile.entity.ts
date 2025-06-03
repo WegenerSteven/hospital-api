@@ -16,7 +16,7 @@ export enum Role {
   RECEPTIONIST = 'receptionist',
 }
 
-@Entity('profile')
+@Entity()
 export class Profile {
   @PrimaryGeneratedColumn('increment')
   profileId: number;
