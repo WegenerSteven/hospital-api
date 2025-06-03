@@ -58,10 +58,10 @@ export class SeedService {
       const seedQueryRunner = this.datasource.createQueryRunner();
       await seedQueryRunner.connect();
       await seedQueryRunner.startTransaction();
-
+    
       try {
+        // Create an array to hold the seeded patients
         const patients: Patient[] = [];
-
         for (let i = 0; i < 50; i++) {
           // create new profile
           const profile = new Profile();
@@ -82,7 +82,7 @@ export class SeedService {
 
           // set patient properties
           patient.dateOfAdmission = faker.date.past();
-          patient.dateOfDischarge = faker.date.future();
+          patient.dateOfDischarge = faker.date.future({});
           patient.dateOfBirth = faker.date.birthdate({ min: 18, max: 90, mode: 'age' });
           patient.address = faker.location.streetAddress();
           patient.city = faker.location.city();
@@ -106,6 +106,43 @@ export class SeedService {
       } finally {
         await seedQueryRunner.release();
       }
+      //seed doctors
+      this.logger.log('Seeding doctors...');
+      const doctorQueryRunner = this.datasource.createQueryRunner();
+      await doctorQueryRunner.connect();
+      await doctorQueryRunner.startTransaction();
+      try {
+        // Create an array to hold the seeded doctors
+        const doctors: Doctor[] = [];
+        for (let i = 0; i < 10; i++) {
+          const doctor = new Doctor();
+          doctor.firstName = faker.person.firstName();
+          doctor.lastName = faker.person.lastName();
+          doctor.email = faker.internet.email({
+            firstName: doctor.firstName,
+            lastName: doctor.lastName,
+            provider: '@google.com',
+          });
+          doctor.phoneNumber = faker.phone.number();
+          doctor.specialty = faker.name.jobArea();
+          doctor.yearsOfExperience = faker.number.int({ min: 1, max: 10 });
+          doctor.password = faker.internet.password();
+          doctor.status = faker.datatype.boolean();
+
+          doctors.push(doctor);
+        }
+
+        await doctorQueryRunner.manager.save(doctors);
+        await doctorQueryRunner.commitTransaction();
+        this.logger.log(`Seeded ${doctors.length} doctors successfully`);
+      } catch (error) {
+        await doctorQueryRunner.rollbackTransaction();
+        this.logger.error('Error seeding doctors:', error);
+        throw error;
+      } finally {
+        await doctorQueryRunner.release();
+      }
+
       return { message: 'Database seeded successfully' };
     } catch (error) {
       this.logger.error('Error seeding database:', error);
