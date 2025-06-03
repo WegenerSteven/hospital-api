@@ -19,8 +19,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         logging: ConfigService.getOrThrow<boolean>('PG_LOGGING'),
         migrations: [__dirname + '/../migrations/**/*{.ts,.js}'],
         ssl: true,
-        extra:{
-          ssl:{
+        extra: {
+          ssl: {
             rejectUnauthorized: false,
           },
         },
