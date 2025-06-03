@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Patient } from 'src/modules/patient/entities/patient.entity';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { Doctor } from '../modules/doctor/entities/doctor.entity';
-import { Profile } from '../modules/profiles/entities/profile.entity';
+import { Profile, Role } from '../modules/profiles/entities/profile.entity';
 import { Admin } from '../modules/admin/entities/admin.entity';
-import { DataSource } from 'typeorm';
 import { Logger } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Role } from '../modules/profiles/dto/create-profile.dto';
 
 @Injectable()
 export class SeedService {
@@ -26,10 +24,10 @@ export class SeedService {
     private readonly datasource: DataSource,
   ) {}
   async seed() {
+    this.logger.log('starting database seeding...');
     //1. clear existing data from database
     //2. seed patients >>> doctors
     //3. seed profiles and patients with random appointments
-
     try {
       this.logger.log('clearing the database...');
       const queryRunner = this.datasource.createQueryRunner();
@@ -40,10 +38,10 @@ export class SeedService {
 
       //delete data in tables
       try {
-        await queryRunner.query('DELETE FROM patient');
+        await queryRunner.query('DELETE FROM patients');
         await queryRunner.query('DELETE FROM profile');
-        await queryRunner.query('DELETE FROM doctor');
-        await queryRunner.query('DELETE FROM department');
+        await queryRunner.query('DELETE FROM doctors');
+       // await queryRunner.query('DELETE FROM department');
 
         await queryRunner.commitTransaction();
         this.logger.log('All tables cleared successfully');
@@ -68,17 +66,26 @@ export class SeedService {
           // create new profile
           const profile = new Profile();
           profile.firstName = faker.person.firstName();
+          profile.lastName = faker.person.lastName();
           profile.email = faker.internet.email({
             firstName: profile.firstName,
             lastName: profile.lastName,
             provider: '@google.com',
           });
+          profile.phoneNumber = faker.phone.number();
           profile.role = Role.PATIENT;
           // add any other non-nullable columns here
 
           const savedProfile = await seedQueryRunner.manager.save(profile);
           // create new patient
           const patient = new Patient();
+
+          // set patient properties
+          patient.dateOfAdmission = faker.date.past();
+          patient.dateOfDischarge = faker.date.future();
+          patient.dateOfBirth = faker.date.birthdate({ min: 18, max: 90, mode: 'age' });
+          patient.address = faker.location.streetAddress();
+          patient.city = faker.location.city();
 
           //link profile to patient
           patient.profile = savedProfile;
