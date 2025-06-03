@@ -1,6 +1,9 @@
 @url = http://localhost:3000
 
 
+#seed data
+POST {{url}}/seed
+
 #profile controller
 ### Get all profiles
 GET {{url}}/profiles
