@@ -5,8 +5,11 @@ import {
   JoinColumn,
   Relation,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 import { Profile } from '../../profiles/entities/profile.entity';
+import { MedicalHistory } from '../../medical-history/entities/medical-history.entity';
+
 
 @Entity('patients')
 export class Patient {
@@ -34,4 +37,9 @@ export class Patient {
   })
   @JoinColumn()
   profile: Relation<Profile>;
+
+  @OneToOne(()=> MedicalHistory, (medicalHistory) => medicalHistory.patient, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
 }

@@ -33,6 +33,8 @@ export class Profile {
   @Column({ unique: true })
   phoneNumber: string;
 
+  password: string;
+
   @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
 
