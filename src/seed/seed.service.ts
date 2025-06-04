@@ -41,7 +41,7 @@ export class SeedService {
         await queryRunner.query('DELETE FROM patients');
         await queryRunner.query('DELETE FROM profile');
         await queryRunner.query('DELETE FROM doctors');
-       // await queryRunner.query('DELETE FROM department');
+        // await queryRunner.query('DELETE FROM department');
 
         await queryRunner.commitTransaction();
         this.logger.log('All tables cleared successfully');
@@ -58,7 +58,7 @@ export class SeedService {
       const seedQueryRunner = this.datasource.createQueryRunner();
       await seedQueryRunner.connect();
       await seedQueryRunner.startTransaction();
-    
+
       try {
         // Create an array to hold the seeded patients
         const patients: Patient[] = [];
@@ -83,7 +83,11 @@ export class SeedService {
           // set patient properties
           patient.dateOfAdmission = faker.date.past();
           patient.dateOfDischarge = faker.date.future({});
-          patient.dateOfBirth = faker.date.birthdate({ min: 18, max: 90, mode: 'age' });
+          patient.dateOfBirth = faker.date.birthdate({
+            min: 18,
+            max: 90,
+            mode: 'age',
+          });
           patient.address = faker.location.streetAddress();
           patient.city = faker.location.city();
 
