@@ -20,12 +20,13 @@ export class CreateProfileDto {
   @IsNotEmpty()
   email: string;
 
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+
   @IsEnum(Role, {
     message:
       'Role must be one of the following: user, admin, doctor, patient, nurse, receptionist',
   })
   role: Role = Role.USER;
-  @IsString()
-  @IsOptional()
-  phoneNumber: string;
 }

@@ -6,12 +6,6 @@ import {
   IsDate,
 } from 'class-validator';
 
-export enum Role {
-  ADMIN = 'admin',
-  SUPERADMIN = 'superadmin',
-  MODERATOR = 'moderator',
-}
-
 export class CreateAdminDto {
   @IsString()
   username: string;

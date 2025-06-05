@@ -1,21 +1,33 @@
-import { PrimaryGeneratedColumn, Column } from "typeorm";
+import { Doctor } from 'src/modules/doctor/entities/doctor.entity';
+import { Patient } from 'src/modules/patient/entities/patient.entity';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToOne,
+  Entity,
+} from 'typeorm';
 
+@Entity('medical_histories')
 export class MedicalHistory {
-    @PrimaryGeneratedColumn()
-    history_id: number
+  @PrimaryGeneratedColumn()
+  history_id: number;
 
-    @Column()
-    patient_id: number;
+  @Column()
+  patient_id: number;
 
-    @Column()
-    doctor_id: number;
+  @Column()
+  diagnosis: string;
 
-    @Column()
-    diagnosis: string;
+  @Column()
+  treatment: string;
 
-    @Column()
-    treatment: string;
+  @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
+  date: Date;
 
-    @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
-    date: 
+  @OneToOne(() => Patient, (patient) => patient.medicalHistory)
+  patient: Patient;
+
+  @ManyToOne(() => Doctor, (doctor) => doctor.medicalHistories)
+  doctor: Doctor;
 }

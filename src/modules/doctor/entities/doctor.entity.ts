@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Appointment } from 'src/modules/appointments/entities/appointment.entity';
+import { MedicalHistory } from 'src/modules/medical-history/entities/medical-history.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 @Entity('doctors')
 export class Doctor {
   @PrimaryGeneratedColumn()
@@ -24,4 +26,10 @@ export class Doctor {
 
   @Column('boolean', { default: true })
   status: boolean;
+
+  @OneToMany(() => Appointment, (appointment) => appointment.doctor)
+  appointments: Appointment[];
+
+  @OneToMany(() => MedicalHistory, (history) => history.doctor)
+  medicalHistories: MedicalHistory[];
 }

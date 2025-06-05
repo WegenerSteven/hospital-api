@@ -23,28 +23,36 @@ export class AdminService {
     }
     return this.adminRepository.save(createAdminDto);
   }
+  
   findAll() {
     return this.adminRepository.find();
   }
+
   findOne(id: number) {
     return this.adminRepository.findOne({ where: { id } });
   }
+
   update(id: number, updateAdminDto: UpdateAdminDto) {
     return this.adminRepository.update(id, updateAdminDto);
   }
+
   remove(id: number) {
     return this.adminRepository.delete(id);
   }
+
   async createProfile(createProfileDto: CreateProfileDto) {
     const newProfile = this.profileRepository.create(createProfileDto);
     return this.profileRepository.save(newProfile);
   }
+
   async findProfileById(id: number) {
     return this.profileRepository.findOneBy({ profileId: id });
   }
+
   async updateProfile(id: number, updateProfileDto: CreateProfileDto) {
     return this.profileRepository.update({ profileId: id }, updateProfileDto);
   }
+
   async removeProfile(id: number) {
     return this.profileRepository.delete({ profileId: id });
   }

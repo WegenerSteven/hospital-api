@@ -1,9 +1,8 @@
-import { IsEmail, IsNotEmpty, isNotEmpty } from 'class-validator';
-import { isSet } from 'util/types';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class CreateAuthDto {
   @IsEmail()
-  @isNotEmpty()
+  @IsNotEmpty()
   email: string;
 
   @IsNotEmpty()

@@ -14,14 +14,14 @@ type JWTPayload = {
 };
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt-at') {
-  constructor(private readonly configService: ConfigService) {
+  constructor(configService: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.getOrThrow<string>('JWT_ACCESS_SECRET_TOKEN'),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), //Bearer token extraction from Authorization header
+      secretOrKey: configService.getOrThrow<string>('JWT_ACCESS_TOKEN_SECRET'), //Access token secret key
     });
   }
 
-  async validate(payload: JWTPayload): Promise<JWTPayload> {
-    return payload;
+  validate(payload: JWTPayload) {
+    return payload; // Return the payload directly, which contains user information (attach request.user = payload;)
   }
 }

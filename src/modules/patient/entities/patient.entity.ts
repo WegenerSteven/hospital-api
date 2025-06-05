@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Profile } from '../../profiles/entities/profile.entity';
 import { MedicalHistory } from '../../medical-history/entities/medical-history.entity';
-
+import { Appointment } from 'src/modules/appointments/entities/appointment.entity';
 
 @Entity('patients')
 export class Patient {
@@ -38,8 +38,14 @@ export class Patient {
   @JoinColumn()
   profile: Relation<Profile>;
 
-  @OneToOne(()=> MedicalHistory, (medicalHistory) => medicalHistory.patient, {
+  @OneToOne(() => MedicalHistory, (medicalHistory) => medicalHistory.patient, {
     cascade: true,
     onDelete: 'CASCADE',
   })
+  medicalHistory: Relation<MedicalHistory>;
+  @OneToMany(() => Appointment, (appointment) => appointment.patient, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  appointments: Appointment[];
 }
