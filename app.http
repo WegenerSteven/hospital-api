@@ -1,7 +1,38 @@
 @url = http://localhost:3000
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTc0OTEwNjg3MSwiZXhwIjoxNzQ5MTA3NzcxfQ.32HNiDudnZAM8JtDlgsEdC_Sp5Qgdc_la-ITNzUgPTU
+@RefreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTc0OTEwNjg3MSwiZXhwIjoxNzQ5NzExNjcxfQ.gP4FfzsFABfn_CKSGzxGwtlsTqnRa5ph7t-qgYk2k5o
+
+## Authentication
+### Register a new user
+POST {{url}}/profiles
+Content-Type: application/json
+
+{
+  "firstName": "david",
+  "lastName": "maina",
+  "email": "davidmaina@example.com",
+  "password": "password003",
+  "role": "doctor"
+}
+
+### Login a user
+POST {{url}}/auth/signin
+Content-Type: application/json
+
+{
+  "email": "davidmaina@example.com",
+  "password": "password003"
+}
+
+### Get all profiles
+GET {{url}}/profiles
+Authorization: Bearer {{AccessToken}}
 
 
-#seed data
+### signout
+GET {{url}}/auth/signout/2
+
+### seed data
 POST {{url}}/seed
 
 #profile controller
@@ -13,18 +44,6 @@ GET {{url}}/profiles/search?name=John
 
 ### Get a profile by ID
 GET {{url}}/profiles/1
-
-### Create a new profile
-POST {{url}}/profiles
-Content-Type: application/json
-
-{
-   "firstName": "John",
-    "lastName": "Doe",
-    "email": "johndoe@example.com",
-    "role": "patient",
-    "phoneNumber": "0712345678"
-}
 
 ### Update a profile by ID
 PATCH {{url}}/profiles/2
@@ -54,10 +73,10 @@ Content-Type: application/json
 {
     "dateOfAdmission": "2023-10-01",
     "dateOfDischarge": "2023-10-10",
-    "dateOfBirth": "1990-01-01",
+    "dateOfBirth": "1991-11-04",
     "address": "Nairobi",
     "city": "Nairobi",
-    "profileId": 1
+    "profileId": 2
 }
 
 
@@ -98,3 +117,6 @@ Content-Type: application/json
     "password": "securepassword",
     "status": true
 }
+
+
+
