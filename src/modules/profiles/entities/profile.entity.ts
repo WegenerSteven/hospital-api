@@ -12,8 +12,6 @@ export enum Role {
   USER = 'user',
   DOCTOR = 'doctor',
   PATIENT = 'patient',
-  NURSE = 'nurse',
-  RECEPTIONIST = 'receptionist',
 }
 
 @Entity()
@@ -30,9 +28,7 @@ export class Profile {
   @Column({ unique: true })
   email: string;
 
-  @Column({ unique: true })
-  phoneNumber: string;
-
+  @Column({ nullable: true })
   password: string;
 
   @Column({ type: 'enum', enum: Role, default: Role.USER })
@@ -40,6 +36,9 @@ export class Profile {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @Column({ type: 'text', nullable: true, default: null })
+  hashedRefreshToken: string | null;
 
   @Column({
     type: 'timestamp',
