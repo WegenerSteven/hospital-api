@@ -72,7 +72,6 @@ export class SeedService {
             lastName: profile.lastName,
             provider: '@google.com',
           });
-          profile.phoneNumber = faker.phone.number();
           profile.role = Role.PATIENT;
           // add any other non-nullable columns here
 
