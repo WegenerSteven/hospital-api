@@ -13,7 +13,6 @@ import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { Keyv, createKeyv } from '@keyv/redis';
 import { CacheableMemory } from 'cacheable';
 import { AuthModule } from './auth/auth.module';
-import { AppointmentsModule } from './appointments/appointments.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
 
