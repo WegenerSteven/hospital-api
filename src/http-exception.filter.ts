@@ -1,58 +1,71 @@
-import {ArgumentsHost, Catch, HttpStatus, HttpException} from "@nestjs/common";
-import { BaseExceptionFilter } from "@nestjs/core";
-import { LogsService } from "src/logs/logs.service";
-import { Request, Response } from "express";
-//interface for the request and response objects
+import {
+  Catch,
+  HttpException,
+  HttpStatus,
+  ArgumentsHost,
+} from '@nestjs/common';
+import { BaseExceptionFilter } from '@nestjs/core';
+import { LogsService } from './logs/logs.service';
+import { Request, Response } from 'express';
 
+// Interface for standardized error response
 interface MyResponseObj {
-  statuscode: number;
+  statusCode: number;
   timestamp: string;
   path: string;
-  res: string | object;
+  response: string | object;
 }
 
- @Catch()
-export class AllExceptionFilter extends BaseExceptionFilter {
-    private readonly logs = new LogsService();
+@Catch()
+export class AllExceptionsFilter extends BaseExceptionFilter {
+  private readonly logs = new LogsService();
 
-    //get Ip address
-    private getClientIp(req: Request): string{
-        //get the x-forwarded-for header or the remote address
-        const forwardedFor = req.headers['x-forwarded-for'];
-        if(forwardedFor){
-            return Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor.split(',')[0].trim();
-        }
-        return req.ip || 'unknown';
+  private getClientIp(request: Request): string {
+    // Get IP from X-Forwarded-For header or fall back to connection remote address
+    const forwardedFor = request.headers['x-forwarded-for'];
+    if (forwardedFor) {
+      // If it's an array or comma-separated string, get the first IP
+      return Array.isArray(forwardedFor)
+        ? forwardedFor[0]
+        : forwardedFor.split(',')[0].trim();
+    }
+    return request.ip || 'unknown';
+  }
+
+  override catch(exception: unknown, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+    const clientIp = this.getClientIp(request);
+
+    const myResponseObj: MyResponseObj = {
+      statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+      response: '',
+    };
+
+    if (exception instanceof HttpException) {
+      myResponseObj.statusCode = exception.getStatus();
+      myResponseObj.response = exception.getResponse();
+    } else if (exception instanceof Error) {
+      myResponseObj.response = exception.message;
+    } else {
+      myResponseObj.response = 'Internal Server Error';
     }
 
-    //catch all exception reformat the error and log it
-    override catch (exception: unknown, host: ArgumentsHost){
-        const ctx = host.switchToHttp();
-        const req = ctx.getRequest<Request>();
-        const res = ctx.getResponse<Response>();
-        const clientIp = this.getClientIp(req);
+    response.status(myResponseObj.statusCode).json(myResponseObj);
 
-        const myResponseObj: MyResponseObj = {
-            statuscode: HttpStatus.INTERNAL_SERVER_ERROR,
-            timestamp: new Date().toISOString(),
-            path: req.url,
-            res: '',
-        }
+    //log the error
+    const logMessage =
+      typeof myResponseObj.response === 'string'
+        ? myResponseObj.response
+        : JSON.stringify(myResponseObj.response);
 
-        //if the exception is an instance of Error, set the response message
-        if(exception instanceof HttpException){
-            myResponseObj.statuscode = exception.getStatus();
-            myResponseObj.res = exception.getResponse();
-        } else if(exception instanceof Error){
-            myResponseObj.res = exception.message;
-        } else{
-            myResponseObj.res = 'Internal Server Error';
-        }
-
-        res.status(myResponseObj.statuscode).json(myResponseObj)
-
-        //log the error to a file
-        const logMessage = typeof myResponseObj.res === 'string' ? myResponseObj.res: JSON. stringify(myResponseObj.res);
-        void this.logs.logToFile(`Error: ${logMessage}-Path: ${req.url}`, clientIp);
-    }
+    // Log the error with client IP and path
+    void this.logs.logToFile(
+      `ERROR: ${logMessage} - Path: ${request.url}`,
+      clientIp,
+    );
+  }
 }
