@@ -81,7 +81,7 @@ Content-Type: application/json
 
 
 ### Delete a patient by ID
-DELETE {{url}}/patient/1
+DELETE {{url}}/patient/3
 
 
 ### get doctors

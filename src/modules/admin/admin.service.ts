@@ -23,7 +23,7 @@ export class AdminService {
     }
     return this.adminRepository.save(createAdminDto);
   }
-  
+
   findAll() {
     return this.adminRepository.find();
   }
