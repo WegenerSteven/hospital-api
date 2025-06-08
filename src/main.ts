@@ -1,12 +1,16 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-// import { AllExceptionFilter } from 'http-exception.filter';
+import { AllExceptionsFilter } from './http-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  //register global exception filter
+  app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
 
   const configService = app.get(ConfigService);
   const PORT: number = parseInt(configService.getOrThrow<string>('PORT'), 10);
@@ -22,9 +26,6 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, documentFactory, {
     jsonDocumentUrl: 'api-json',
   });
-
-  // const { httpAdapter } = app.getHttpAdapter();
-  // app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
 
   await app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
