@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { DoctorModule } from './modules/doctor/doctor.module';
@@ -8,7 +8,8 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
 import { DepartmentsModule } from './modules/departments/departments.module';
 //import { SeedModule } from './seed/seed.module';
 import { LogsModule } from './logs/logs.module';
-import { CachesModule } from './caches/caches.module';
+// Make sure the path below is correct based on your project structure
+import { LoggerMiddleware } from './logger.middleware';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { Keyv, createKeyv } from '@keyv/redis';
 import { CacheableMemory } from 'cacheable';
@@ -27,7 +28,6 @@ import { MedicalHistoryModule } from './modules/medical-history/medical-history.
     DepartmentsModule,
     //SeedModule,
     LogsModule,
-    CachesModule,
     //add cache module from cache manager
     CacheModule.registerAsync({
       imports: [ConfigModule],
@@ -60,4 +60,17 @@ import { MedicalHistoryModule } from './modules/medical-history/medical-history.
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes(
+        'profiles',
+        'departments',
+        'doctors',
+        'patients',
+        'appointments',
+        'medical-history',
+      );
+  }
+}
