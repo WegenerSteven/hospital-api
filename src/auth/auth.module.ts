@@ -7,7 +7,7 @@ import { DatabaseModule } from 'src/database/database.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AtStrategy, RfStrategy } from './strategies';
-import { RolesGuard } from './guards';
+import { RolesGuard } from './guards/roles.guard';
 
 @Module({
   imports: [
@@ -20,6 +20,6 @@ import { RolesGuard } from './guards';
   ],
   providers: [AuthService, AtStrategy, RfStrategy],
   controllers: [AuthController],
-  exports: [RolesGuard], //export rolesGuard to be accessed in other modules
+  //exports: [RolesGuard], //export rolesGuard to be accessed in other modules
 })
 export class AuthModule {}
