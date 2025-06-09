@@ -17,6 +17,7 @@ import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './auth/guards';
+import { CaslModule } from './casl/casl.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { AtGuard } from './auth/guards';
     AuthModule,
     AppointmentsModule,
     MedicalHistoryModule,
+    CaslModule,
   ],
   controllers: [],
   providers: [
