@@ -8,9 +8,10 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-type JWTPayload = {
+export type JWTPayload = {
   sub: number; // User ID
   email: string; // User email
+  roles: string;
 };
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy, 'jwt-at') {

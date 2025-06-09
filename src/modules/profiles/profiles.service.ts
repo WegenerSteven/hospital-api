@@ -102,7 +102,7 @@ export class ProfilesService {
     return await this.findOne(id);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<string> {
     return await this.profileRepository
       .delete({ profileId: id })
       .then((result) => {

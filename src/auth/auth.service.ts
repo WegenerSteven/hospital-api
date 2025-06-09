@@ -20,21 +20,25 @@ export class AuthService {
   ) {}
 
   //helper method to generate access and refresh tokens
-  private async generateTokens(userId: number, email: string) {
+  private async generateTokens(userId: number, email: string, role: string) {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(
-        { sub: userId, email },
+        { sub: userId, email: email, role: role },
         {
           secret: this.configService.getOrThrow<string>(
             'JWT_ACCESS_TOKEN_SECRET',
           ),
           expiresIn: this.configService.getOrThrow<string>(
-            'JWT_ACCESS_TOKEN_EXPIRATION',
+            'JWT_ACCESS_TOKEN_EXPIRATION', //15min
           ),
         },
       ),
       this.jwtService.signAsync(
-        { sub: userId, email },
+        {
+          sub: userId,
+          email: email,
+          role: role,
+        },
         {
           secret: this.configService.getOrThrow<string>(
             'JWT_REFRESH_TOKEN_SECRET',
@@ -69,7 +73,7 @@ export class AuthService {
     //checj if user exists in the database
     const foundUser = await this.profileRepository.findOne({
       where: { email: CreateAuthDto.email },
-      select: ['profileId', 'email', 'password'],
+      select: ['profileId', 'email', 'password', 'role'], //include role selection
     });
     if (!foundUser) {
       throw new NotFoundException(`no user with ${CreateAuthDto.email} found`);
@@ -89,6 +93,7 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.generateTokens(
       foundUser.profileId,
       foundUser.email,
+      foundUser.role,
     );
 
     //save refresh token in the database
@@ -114,6 +119,7 @@ export class AuthService {
   async refreshTokens(id: number, refreshToken: string) {
     const foundUser = await this.profileRepository.findOne({
       where: { profileId: id },
+      select: ['profileId', 'email', 'role', 'hashedRefreshToken'],
     });
 
     if (!foundUser) {
@@ -135,7 +141,11 @@ export class AuthService {
     }
     // generate new tokens
     const { accessToken, refreshToken: newRefreshToken } =
-      await this.generateTokens(foundUser.profileId, foundUser.email);
+      await this.generateTokens(
+        foundUser.profileId,
+        foundUser.email,
+        foundUser.role,
+      );
 
     // save new refresh token in the database
     await this.saveRefreshToken(foundUser.profileId, newRefreshToken);

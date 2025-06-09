@@ -4,9 +4,10 @@ import { ExtractJwt, Strategy, StrategyOptionsWithRequest } from 'passport-jwt';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 
-interface JwtPayload {
+export interface JwtPayload {
   sub: number;
   email: string;
+  role: string;
   [key: string]: any;
 }
 

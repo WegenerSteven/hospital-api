@@ -8,7 +8,6 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
 import { DepartmentsModule } from './modules/departments/departments.module';
 //import { SeedModule } from './seed/seed.module';
 import { LogsModule } from './logs/logs.module';
-// Make sure the path below is correct based on your project structure
 import { LoggerMiddleware } from './logger.middleware';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { Keyv, createKeyv } from '@keyv/redis';
@@ -16,6 +15,8 @@ import { CacheableMemory } from 'cacheable';
 import { AuthModule } from './auth/auth.module';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AtGuard } from './auth/guards';
 
 @Module({
   imports: [
@@ -35,7 +36,7 @@ import { MedicalHistoryModule } from './modules/medical-history/medical-history.
       isGlobal: true,
       useFactory: (ConfigService: ConfigService) => {
         return {
-          // ttl: 60000,
+          //ttl: 60000,
           stores: [
             new Keyv({
               store: new CacheableMemory({
@@ -57,6 +58,10 @@ import { MedicalHistoryModule } from './modules/medical-history/medical-history.
     {
       provide: 'APP_INTERCEPTOR',
       useClass: CacheInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AtGuard, //global guard to protect routes
     },
   ],
 })
