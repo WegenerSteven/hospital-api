@@ -18,12 +18,12 @@ export class PoliciesGuard implements CanActivate {
       ) || [];
 
     if (PolicyHandlers.length === 0) {
-      return true;
+      return true; //no policies defined no restrictions
     }
     const { user } = context.switchToHttp().getRequest();
 
     if (!user) {
-      return false; //no user found, deny access
+      return false; //no user found, no permissions
     }
 
     const ability = this.caslAbilityFactory.createForUser(user);
@@ -35,8 +35,8 @@ export class PoliciesGuard implements CanActivate {
 
   private execPolicyHandler(handler: PolicyHandler, ability: AppAbility) {
     if (typeof handler === 'function') {
-      return handleRetry(ability);
+      return handler(ability);
     }
-    return handleRetry.handle(ability);
+    return handler.handle(ability);
   }
 }
