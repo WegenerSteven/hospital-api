@@ -1,7 +1,6 @@
 @url = http://localhost:3000
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTc0OTEwNjg3MSwiZXhwIjoxNzQ5MTA3NzcxfQ.32HNiDudnZAM8JtDlgsEdC_Sp5Qgdc_la-ITNzUgPTU
-@RefreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSIsImlhdCI6MTc0OTEwNjg3MSwiZXhwIjoxNzQ5NzExNjcxfQ.gP4FfzsFABfn_CKSGzxGwtlsTqnRa5ph7t-qgYk2k5o
-
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiZGF2aWRtYWluYUBleGFtcGxlLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NDk0NzI1OTEsImV4cCI6MTc0OTQ3MzQ5MX0.34DhRPVZkZFyaLfVE8IH9EeGXb4Yweo0QI9nBkTxefM
+@RefreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiZGF2aWRtYWluYUBleGFtcGxlLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NDk0NzI1OTEsImV4cCI6MTc1MDA3NzM5MX0.lVyTVGxA0LGqj7HbPHZxQIr1dNiIeDKATxfftHzOMIk
 ## Authentication
 ### Register a new user
 POST {{url}}/profiles
@@ -30,7 +29,8 @@ Authorization: Bearer {{AccessToken}}
 
 
 ### signout
-GET {{url}}/auth/signout/2
+GET {{url}}/auth/signout/1
+
 
 ### seed data
 POST {{url}}/seed
