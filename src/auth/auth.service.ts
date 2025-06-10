@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { Profile } from '../modules/profiles/entities/profile.entity';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import * as Bcrypt from 'Bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -57,8 +57,8 @@ export class AuthService {
 
   //helper method to hash passwords
   private async hashPassword(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
+    const salt = await Bcrypt.genSalt(10);
+    return await Bcrypt.hash(password, salt);
   }
   //helper method to hash refresh tokens
   private async saveRefreshToken(userId: number, refreshToken: string) {
@@ -82,7 +82,7 @@ export class AuthService {
     }
 
     //check if password is correct
-    const foundPassword = await bcrypt.compare(
+    const foundPassword = await Bcrypt.compare(
       CreateAuthDto.password,
       foundUser.password,
     );
@@ -133,7 +133,7 @@ export class AuthService {
     }
 
     // check if the provided refresh token matches the one in the database
-    const refreshTokenMatches = await bcrypt.compare(
+    const refreshTokenMatches = await Bcrypt.compare(
       refreshToken,
       foundUser.hashedRefreshToken,
     );
