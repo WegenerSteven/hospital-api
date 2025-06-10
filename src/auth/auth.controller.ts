@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { Public } from './decorators/public.decorator';
 import { AtGuard, RtGuard } from './guards';
+import { ApiTags } from '@nestjs/swagger';
 
 export interface RequestwithUser extends Request {
   user: {
@@ -23,7 +24,7 @@ export interface RequestwithUser extends Request {
     refreshToken: string;
   };
 }
-
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -38,6 +39,7 @@ export class AuthController {
   //auth/signout/:id
   // @UseGuards(AtGuard)
   @Public()
+  @UseGuards(AtGuard)
   @Get('signout/:id')
   signOut(@Param('id', ParseIntPipe) id: number) {
     return this.authService.signOut(id);
