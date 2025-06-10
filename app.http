@@ -74,7 +74,7 @@ GET {{url}}/patient
 GET {{url}}/patient/1
 
 ### Create a new patient
-POST {{url}}/patient
+POST {{url}}/patients
 Content-Type: application/json
 
 {
@@ -92,9 +92,9 @@ DELETE {{url}}/patient/3
 
 
 ### get doctors
-GET {{url}}/doctor
+GET {{url}}/doctors
 ### Create a new doctor
-POST {{url}}/doctor
+POST {{url}}/doctors
 Content-Type: application/json
 
 {
