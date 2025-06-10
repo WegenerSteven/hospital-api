@@ -1,16 +1,16 @@
-@url = http://localhost:3000
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiZGF2aWRtYWluYUBleGFtcGxlLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NDk0NzI1OTEsImV4cCI6MTc0OTQ3MzQ5MX0.34DhRPVZkZFyaLfVE8IH9EeGXb4Yweo0QI9nBkTxefM
-@RefreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiZGF2aWRtYWluYUBleGFtcGxlLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NDk0NzI1OTEsImV4cCI6MTc1MDA3NzM5MX0.lVyTVGxA0LGqj7HbPHZxQIr1dNiIeDKATxfftHzOMIk
+@url = http://localhost:3000/api/v1
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiZGF2aWRtYWluYUBleGFtcGxlLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NDk1NjM5MTksImV4cCI6MTc0OTU2NDgxOX0.oi-zjsw9ZfHwtztcUOOti8YHJwGT0MwUsot9p9vF5rU
+@RefreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjQsImVtYWlsIjoiZGF2aWRtYWluYUBleGFtcGxlLmNvbSIsInJvbGUiOiJkb2N0b3IiLCJpYXQiOjE3NDk1NjIyMzUsImV4cCI6MTc1MDE2NzAzNX0.3ETWx3b16BJogjkr_i_gXJDNF3cUW1YasNe8eYeyOFE
 ## Authentication
 ### Register a new user
 POST {{url}}/profiles
 Content-Type: application/json
 
 {
-  "firstName": "david",
+  "firstName": "james",
   "lastName": "maina",
-  "email": "davidmaina@example.com",
-  "password": "password003",
+  "email": "mainajames@example.com",
+  "password": "password004",
   "role": "doctor"
 }
 
@@ -19,17 +19,25 @@ POST {{url}}/auth/signin
 Content-Type: application/json
 
 {
-  "email": "davidmaina@example.com",
+  "email": "davidmaina@example.com", 
   "password": "password003"
 }
 
 ### Get all profiles
-GET {{url}}/profiles
+GET {{url}}/profiles?email=mainajames@example.com
 Authorization: Bearer {{AccessToken}}
 
 
 ### signout
-GET {{url}}/auth/signout/1
+GET {{url}}/auth/signout
+Authorization: Bearer {{AccessToken}}
+### Refresh token 
+POST {{url}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{RefreshToken}}"
+}
 
 
 ### seed data
@@ -62,7 +70,6 @@ DELETE {{url}}/profiles/3
 
 ### Get all patients
 GET {{url}}/patient
-
 ### Get a patient by ID
 GET {{url}}/patient/1
 
@@ -117,6 +124,8 @@ Content-Type: application/json
     "password": "securepassword",
     "status": true
 }
+### Delete a doctor by ID
+DELETE {{url}}/doctor/3
 
 
 
