@@ -10,7 +10,9 @@ import {
 import { MedicalHistoryService } from './medical-history.service';
 import { CreateMedicalHistoryDto } from './dto/create-medical-history.dto';
 import { UpdateMedicalHistoryDto } from './dto/update-medical-history.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('medical-history')
 @Controller('medical-history')
 export class MedicalHistoryController {
   constructor(private readonly medicalHistoryService: MedicalHistoryService) {}
