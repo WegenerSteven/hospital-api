@@ -10,6 +10,7 @@ type Subject =
   | 'Patient'
   | 'Doctor'
   | 'Appointment'
+  | 'Admin'
   | 'All';
 
 //define the type of ability to be used
