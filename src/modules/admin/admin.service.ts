@@ -1,25 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
+import { CreateDoctorDto } from '../doctor/dto/create-doctor.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Admin } from './entities/admin.entity';
 import { Profile } from '../profiles/entities/profile.entity';
 import { CreateProfileDto } from '../profiles/dto/create-profile.dto';
+import { Doctor } from '../doctor/entities/doctor.entity';
 
 @Injectable()
 export class AdminService {
   constructor(
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
+    @InjectRepository(Doctor) private doctorRepository: Repository<Doctor>,
   ) {}
 
   async create(createAdminDto: CreateAdminDto) {
-    const existProfile = await this.profileRepository.findOneBy({
-      profileId: createAdminDto.profileId,
+    const existAdmin = await this.adminRepository.findOneBy({
+      adminId: createAdminDto.adminId,
     });
-    if (!existProfile) {
-      throw new Error('Profile not found');
+    if (!existAdmin) {
+      throw new Error('Admin not found');
     }
     return this.adminRepository.save(createAdminDto);
   }
@@ -29,7 +32,7 @@ export class AdminService {
   }
 
   findOne(id: number) {
-    return this.adminRepository.findOne({ where: { id } });
+    return this.adminRepository.findOne({ where: { adminId: id } });
   }
 
   update(id: number, updateAdminDto: UpdateAdminDto) {
@@ -55,5 +58,10 @@ export class AdminService {
 
   async removeProfile(id: number) {
     return this.profileRepository.delete({ profileId: id });
+  }
+
+  async createDoctor(dto: CreateDoctorDto) {
+    const doctor = this.doctorRepository.create(dto);
+    return await this.doctorRepository.save(doctor);
   }
 }
