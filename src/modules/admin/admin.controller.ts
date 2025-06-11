@@ -17,7 +17,6 @@ import { PoliciesGuard } from 'src/casl/guards/policies.guard';
 import { CreateDoctorDto } from '../doctor/dto/create-doctor.dto';
 import { CheckPolicies } from 'src/casl/decorators/check-policies.decorator';
 import { Action } from 'src/casl/action.enum';
-import { AtGuard, RolesGuard } from 'src/auth/guards';
 
 @ApiTags('admin')
 @UseGuards(AuthGuard('jwt'), PoliciesGuard)
