@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Profile } from '../modules/profiles/entities/profile.entity';
 import { ConfigService } from '@nestjs/config';
+import { Admin } from '../modules/admin/entities/admin.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as Bcrypt from 'Bcrypt';
 
@@ -154,5 +155,26 @@ export class AuthService {
 
     // return the new tokens
     return { accessToken, refreshToken: newRefreshToken };
+  }
+
+  //method to signin an admin
+  async login(Admin: Admin) {
+    const payload = {
+      sub: Admin.adminId,
+      username: Admin.username,
+      role: 'admin',
+      permissions: [
+        'createdoctor',
+        'createpatient',
+        'updatedoctor',
+        'updatepatient',
+        'deletedoctor',
+        'deletepatient',
+      ],
+    };
+
+    return {
+      accessToken: this.jwtService.sign(payload),
+    };
   }
 }
