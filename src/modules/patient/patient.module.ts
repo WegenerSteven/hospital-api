@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseModule } from 'src/database/database.module';
 import { Patient } from './entities/patient.entity';
 import { Profile } from '../profiles/entities/profile.entity';
+import { RolesGuard } from 'src/auth/guards';
 
 @Module({
   imports: [DatabaseModule, TypeOrmModule.forFeature([Patient, Profile])],
   controllers: [PatientController],
-  providers: [PatientService],
+  providers: [PatientService, RolesGuard],
 })
 export class PatientModule {}
