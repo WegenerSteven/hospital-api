@@ -19,10 +19,10 @@ export class AdminService {
 
   async create(createAdminDto: CreateAdminDto) {
     const existAdmin = await this.adminRepository.findOneBy({
-      adminId: createAdminDto.adminId,
+      username: createAdminDto.username,
     });
-    if (!existAdmin) {
-      throw new Error('Admin not found');
+    if (existAdmin) {
+      throw new Error('Admin already exists');
     }
     return this.adminRepository.save(createAdminDto);
   }
