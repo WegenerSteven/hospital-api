@@ -1,26 +1,50 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Appointment } from './entities/appointment.entity';
 
 @Injectable()
 export class AppointmentsService {
+  constructor(
+    @InjectRepository(Appointment)
+    private appointmentRepository: Repository<Appointment>,
+  ) {}
   create(createAppointmentDto: CreateAppointmentDto) {
-    return 'This action adds a new appointment';
+    const appointment = this.appointmentRepository.create(createAppointmentDto);
+    return this.appointmentRepository.save(appointment);
   }
 
   findAll() {
-    return `This action returns all appointments`;
+    return this.appointmentRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} appointment`;
+    return this.appointmentRepository.findOne({ where: { appointmentId: id } });
   }
 
   update(id: number, updateAppointmentDto: UpdateAppointmentDto) {
-    return `This action updates a #${id} appointment`;
+    return this.appointmentRepository
+      .update(id, updateAppointmentDto)
+      .then((result) => {
+        if (result.affected === 0) {
+          return `Appointment with ID ${id} not found`;
+        }
+      });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} appointment`;
+  remove(id: number): Promise<void> {
+    return this.appointmentRepository
+      .delete(id)
+      .then((result) => {
+        if (result.affected === 0) {
+          throw new Error(`Appointment with ID ${id} not found`);
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting appointment:', error);
+        throw new Error('Error deleting appointment');
+      });
   }
 }
