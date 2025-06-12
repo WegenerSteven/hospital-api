@@ -20,7 +20,7 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 
 # Expose port
-EXPOSE 8000
+EXPOSE 3000
 
 # Start the application in development mode
 CMD ["pnpm", "run", "start:dev"]
