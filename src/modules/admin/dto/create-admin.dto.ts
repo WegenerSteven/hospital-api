@@ -1,19 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsString,
-  IsBoolean,
-  IsNotEmpty,
-  IsNumber,
-} from 'class-validator';
+import { IsEmail, IsString, IsBoolean, IsNotEmpty } from 'class-validator';
 
 export class CreateAdminDto {
-  @ApiProperty({
-    description: 'The unique identifier of the admin',
-    required: true,
-  })
-  @IsNumber()
-  adminId: number;
+  // @ApiProperty({
+  //   description: 'The unique identifier of the admin',
+  //   required: true,
+  // })
+  // @IsNumber()
+  // adminId: number;
 
   @ApiProperty({
     description: 'The username of the admin',
