@@ -62,6 +62,7 @@ export class ProfilesController {
   @Roles(Role.ADMIN)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
+    // Ensure that only admins can delete profiles
     return this.profilesService.remove(id);
   }
 }
