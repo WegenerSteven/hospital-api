@@ -8,7 +8,7 @@ import { Profile } from '../modules/profiles/entities/profile.entity';
 import { ConfigService } from '@nestjs/config';
 import { Admin } from '../modules/admin/entities/admin.entity';
 import { JwtService } from '@nestjs/jwt';
-import * as Bcrypt from 'Bcrypt';
+import * as Bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -158,7 +158,7 @@ export class AuthService {
   }
 
   //method to signin an admin
-  async login(Admin: Admin) {
+  login(Admin: Admin) {
     const payload = {
       sub: Admin.adminId,
       username: Admin.username,
