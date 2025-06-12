@@ -7,7 +7,7 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   appointmentId: number;
 
-  @Column()
+  @Column('date')
   appointmentDate: Date;
 
   @Column()
