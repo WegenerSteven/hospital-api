@@ -117,7 +117,7 @@ export class SeedService {
       try {
         // Create an array to hold the seeded doctors
         const doctors: Doctor[] = [];
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 20; i++) {
           const doctor = new Doctor();
           doctor.firstName = faker.person.firstName();
           doctor.lastName = faker.person.lastName();

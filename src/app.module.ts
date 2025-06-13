@@ -1,19 +1,19 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
-import { AdminModule } from './modules/admin/admin.module';
-import { DoctorModule } from './modules/doctor/doctor.module';
-import { PatientModule } from './modules/patient/patient.module';
+import { AdminModule } from './admin/admin.module';
+import { DoctorModule } from './doctor/doctor.module';
+import { PatientModule } from './patient/patient.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ProfilesModule } from './modules/profiles/profiles.module';
-import { AppointmentsModule } from './modules/appointments/appointments.module';
-//import { SeedModule } from './seed/seed.module';
+import { ProfilesModule } from './profiles/profiles.module';
+import { MedicalHistoryModule } from './medical-history/medical-history.module';
+import { AppointmentsModule } from './appointments/appointments.module';
+import { SeedModule } from './seed/seed.module';
 import { LogsModule } from './logs/logs.module';
 import { LoggerMiddleware } from './logger.middleware';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
 import { Keyv, createKeyv } from '@keyv/redis';
 import { CacheableMemory } from 'cacheable';
 import { AuthModule } from './auth/auth.module';
-import { MedicalHistoryModule } from './modules/medical-history/medical-history.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './auth/guards';
 import { CaslModule } from './casl/casl.module';
@@ -28,7 +28,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     PatientModule,
     ProfilesModule,
     AppointmentsModule,
-    //SeedModule,
+    SeedModule,
     LogsModule,
     //add cache module from cache manager
     CacheModule.registerAsync({
