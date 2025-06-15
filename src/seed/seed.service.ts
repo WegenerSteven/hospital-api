@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Patient } from 'src/modules/patient/entities/patient.entity';
+import { Patient } from 'src/patient/entities/patient.entity';
 import { Repository, DataSource } from 'typeorm';
-import { Doctor } from '../modules/doctor/entities/doctor.entity';
-import { Profile, Role } from '../modules/profiles/entities/profile.entity';
-import { Admin } from '../modules/admin/entities/admin.entity';
+import { Doctor } from '../doctor/entities/doctor.entity';
+import { Profile, Role } from '../profiles/entities/profile.entity';
+import { Admin } from '../admin/entities/admin.entity';
 import { Logger } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
 import { InjectRepository } from '@nestjs/typeorm';
