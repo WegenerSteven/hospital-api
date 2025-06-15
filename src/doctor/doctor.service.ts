@@ -16,16 +16,20 @@ export class DoctorService {
     return this.doctorRepository.save(createDoctorDto);
   }
 
-  findAll() {
+  findAll(): Promise<Doctor[]> {
     return this.doctorRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: number): Promise<Doctor | null> {
     return this.doctorRepository.findOne({ where: { doctorId: id } });
   }
 
-  update(id: number, updateDoctorDto: UpdateDoctorDto) {
-    return this.doctorRepository.update(id, updateDoctorDto);
+  async update(
+    id: number,
+    updateDoctorDto: UpdateDoctorDto,
+  ): Promise<Doctor | null> {
+    await this.doctorRepository.update(id, updateDoctorDto);
+    return this.doctorRepository.findOne({ where: { doctorId: id } });
   }
 
   remove(id: number) {

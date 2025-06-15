@@ -15,7 +15,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { AtGuard, RolesGuard } from 'src/auth/guards';
 import { Role } from '../profiles/entities/profile.entity';
-
 @ApiTags('doctors')
 @ApiBearerAuth()
 @UseGuards(RolesGuard, AtGuard)

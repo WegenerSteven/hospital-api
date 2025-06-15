@@ -1,5 +1,5 @@
-import { Appointment } from 'src/modules/appointments/entities/appointment.entity';
-import { MedicalHistory } from 'src/modules/medical-history/entities/medical-history.entity';
+import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { MedicalHistory } from 'src/medical-history/entities/medical-history.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 @Entity('doctors')
 export class Doctor {
@@ -30,6 +30,6 @@ export class Doctor {
   @OneToMany(() => Appointment, (appointment) => appointment.doctor)
   appointments: Appointment[];
 
-  @OneToMany(() => MedicalHistory, (history) => history.doctor)
+  @OneToMany(() => MedicalHistory, (history: MedicalHistory) => history.doctor)
   medicalHistories: MedicalHistory[];
 }
