@@ -19,7 +19,7 @@ import { CheckPolicies } from 'src/casl/decorators/check-policies.decorator';
 import { Action } from 'src/casl/action.enum';
 import { AtGuard, RolesGuard } from 'src/auth/guards';
 import { Roles } from 'src/auth/decorators/role.decorator';
-import { Role } from 'src/modules/profiles/entities/profile.entity';
+import { Role } from 'src/profiles/entities/profile.entity';
 import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiBearerAuth()

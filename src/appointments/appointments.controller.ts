@@ -11,16 +11,15 @@ import {
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
-import { ApiTags } from '@nestjs/swagger';
-import { Public } from 'src/auth/decorators/public.decorator';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorators/role.decorator';
-import { Role } from 'src/modules/profiles/entities/profile.entity';
+import { Role } from 'src/profiles/entities/profile.entity';
 import { AtGuard } from 'src/auth/guards';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @ApiTags('appointments')
+@ApiBearerAuth()
 @UseGuards(RolesGuard, AtGuard)
-@Public() // You can add guards here if needed, e.g., AuthGuard('jwt')
 @Controller('appointments')
 export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}

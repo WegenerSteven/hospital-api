@@ -1,5 +1,5 @@
-import { Patient } from 'src/modules/patient/entities/patient.entity';
-import { Doctor } from 'src/modules/doctor/entities/doctor.entity';
+import { Patient } from 'src/patient/entities/patient.entity';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 import { Column, ManyToOne, PrimaryGeneratedColumn, Entity } from 'typeorm';
 
 @Entity('appointments')
