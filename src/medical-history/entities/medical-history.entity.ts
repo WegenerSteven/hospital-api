@@ -1,5 +1,5 @@
-import { Doctor } from 'src/modules/doctor/entities/doctor.entity';
-import { Patient } from 'src/modules/patient/entities/patient.entity';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { Patient } from 'src/patient/entities/patient.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
@@ -11,10 +11,10 @@ import {
 @Entity('medical_histories')
 export class MedicalHistory {
   @PrimaryGeneratedColumn()
-  history_id: number;
+  historyId: number;
 
   @Column()
-  patient_id: number;
+  patientId: number;
 
   @Column()
   diagnosis: string;
