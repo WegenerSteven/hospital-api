@@ -1,4 +1,4 @@
-import { Patient } from 'src/modules/patient/entities/patient.entity';
+import { Patient } from 'src/patient/entities/patient.entity';
 import {
   Column,
   Entity,
