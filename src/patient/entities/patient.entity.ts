@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Profile } from '../../profiles/entities/profile.entity';
 import { MedicalHistory } from '../../medical-history/entities/medical-history.entity';
-import { Appointment } from 'src/modules/appointments/entities/appointment.entity';
+import { Appointment } from 'src/appointments/entities/appointment.entity';
 
 @Entity('patients')
 export class Patient {
