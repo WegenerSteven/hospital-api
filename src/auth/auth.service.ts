@@ -4,9 +4,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Profile } from '../modules/profiles/entities/profile.entity';
+import { Profile } from '../profiles/entities/profile.entity';
 import { ConfigService } from '@nestjs/config';
-import { Admin } from '../modules/admin/entities/admin.entity';
+import { Admin } from '../admin/entities/admin.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as Bcrypt from 'bcrypt';
 

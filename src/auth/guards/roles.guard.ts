@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Profile, Role } from 'src/modules/profiles/entities/profile.entity';
+import { Profile, Role } from 'src/profiles/entities/profile.entity';
 import { Repository } from 'typeorm';
 import { ROLES_KEY } from '../decorators/role.decorator';
 import { JWTPayload } from '../strategies/at.strategy';

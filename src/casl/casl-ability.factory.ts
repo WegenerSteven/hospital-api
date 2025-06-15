@@ -1,8 +1,8 @@
 import { AbilityBuilder, PureAbility } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
 import { Action } from './action.enum';
-import { Profile } from 'src/modules/profiles/entities/profile.entity';
-import { Role } from 'src/modules/profiles/entities/profile.entity';
+import { Profile } from 'src/profiles/entities/profile.entity';
+import { Role } from 'src/profiles/entities/profile.entity';
 //define a type for subjects
 type Subject =
   | 'Profile'
