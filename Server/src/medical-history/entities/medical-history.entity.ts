@@ -1,20 +1,19 @@
 import { Doctor } from 'src/doctor/entities/doctor.entity';
 import { Patient } from 'src/patient/entities/patient.entity';
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToOne,
-  Entity,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, Column, ManyToOne, Entity } from 'typeorm';
 
 @Entity('medical_histories')
 export class MedicalHistory {
   @PrimaryGeneratedColumn()
   historyId: number;
 
-  @Column()
-  patientId: number;
+  @ManyToOne(() => Patient, (patient) => patient.medicalHistory, {
+    eager: true,
+  })
+  patient: Patient;
+
+  @ManyToOne(() => Doctor, (doctor) => doctor.medicalHistory, { eager: true })
+  doctor: Doctor;
 
   @Column()
   diagnosis: string;
@@ -24,10 +23,4 @@ export class MedicalHistory {
 
   @Column('timestamp', { default: () => 'CURRENT_TIMESTAMP' })
   date: Date;
-
-  @OneToOne(() => Patient, (patient) => patient.medicalHistory)
-  patient: Patient;
-
-  @ManyToOne(() => Doctor, (doctor) => doctor.medicalHistories)
-  doctor: Doctor;
 }
