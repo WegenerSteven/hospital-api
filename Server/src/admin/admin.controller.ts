@@ -14,23 +14,16 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 // import { AuthGuard } from '@nestjs/passport';
 // import { PoliciesGuard } from 'src/casl/guards/policies.guard';
-import { CreateDoctorDto } from '../doctor/dto/create-doctor.dto';
-import { CheckPolicies } from 'src/casl/decorators/check-policies.decorator';
-import { Action } from 'src/casl/action.enum';
 import { AtGuard, RolesGuard } from 'src/auth/guards';
 import { Roles } from 'src/auth/decorators/role.decorator';
 import { Role } from 'src/profiles/entities/profile.entity';
-import { Public } from 'src/auth/decorators/public.decorator';
 
 @ApiBearerAuth()
 @ApiTags('admin')
 @UseGuards(RolesGuard, AtGuard)
-@CheckPolicies((ability) => ability.can(Action.Manage, 'All'))
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
-
-  @Public()
   @Post()
   create(@Body() createAdminDto: CreateAdminDto) {
     return this.adminService.create(createAdminDto);
@@ -58,11 +51,5 @@ export class AdminController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.adminService.remove(+id);
-  }
-
-  @Post('doctors')
-  @CheckPolicies((ability) => ability.can(Action.Create, 'Doctor'))
-  createDoctor(@Body() dto: CreateDoctorDto) {
-    return this.adminService.createDoctor(dto);
   }
 }

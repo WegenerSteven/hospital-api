@@ -6,6 +6,11 @@ import { Column, ManyToOne, PrimaryGeneratedColumn, Entity } from 'typeorm';
 export class Appointment {
   @PrimaryGeneratedColumn()
   appointmentId: number;
+  @ManyToOne(() => Patient, (patient) => patient.appointments, { eager: true })
+  patient: Patient;
+
+  @ManyToOne(() => Doctor, (doctor) => doctor.appointments, { eager: true })
+  doctor: Doctor;
 
   @Column('date')
   appointmentDate: Date;
@@ -24,10 +29,5 @@ export class Appointment {
     default: () => 'CURRENT_TIMESTAMP',
     onUpdate: 'CURRENT_TIMESTAMP',
   })
-  @ManyToOne(() => Patient, (patient) => patient.appointments, { eager: true })
-  patient: Patient;
-
-  @ManyToOne(() => Doctor, (doctor) => doctor.appointments, { eager: true })
-  doctor: Doctor;
   updatedAt: Date;
 }

@@ -172,6 +172,11 @@ Each module has its own API endpoints and access controls.
 
 ---
 
+### To access DB inside container:
+``docker exec -it hospital-postgres sh``.
+
+``psql -U postgres -d db_name``
+
 ## Extensibility Suggestions
 
 - **Notifications:** Add SMS/email notifications for appointments

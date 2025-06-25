@@ -31,5 +31,5 @@ export class Doctor {
   appointments: Appointment[];
 
   @OneToMany(() => MedicalHistory, (history: MedicalHistory) => history.doctor)
-  medicalHistories: MedicalHistory[];
+  medicalHistory: MedicalHistory[];
 }

@@ -24,7 +24,9 @@ export class PatientService {
   }
 
   findAll() {
-    return this.patientRepository.find();
+    return this.patientRepository.find({
+      relations: ['appointments'],
+    });
   }
 
   findOne(id: number) {
